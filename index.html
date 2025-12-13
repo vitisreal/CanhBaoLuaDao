@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Cảnh báo lừa đảo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing:border-box;scroll-behavior:smooth}
+        html,body{height:100%;margin:0;padding:0}
+        body{background:#fff url('./images/broken-money.gif') fixed center/35% no-repeat;color:#000;font-family:'Space Grotesk',system-ui,-apple-system,'Segoe UI',Roboto,Arial}
+        body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.92);pointer-events:none;z-index:-1}
+        
+        .site-header{position:sticky;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:18px 40px;background:rgba(255,255,255,0.94);backdrop-filter:blur(6px);border-bottom:1px solid rgba(0,0,0,0.06);z-index:1000}
+        .site-header .brand{font-weight:800;font-size:40px;color:rgba(185,255,102,1)}
+        .site-nav{display:flex;gap:28px}
+        .site-nav a{color:rgba(0,0,0,0.95);text-decoration:none;font-size:18px;transition:color 0.3s ease}
+        .site-nav a:hover{color:rgba(185,255,102,1)}
+        
+        .hero{min-height:100vh;display:flex;align-items:center;justify-content:space-between;padding:140px 80px 80px 100px;gap:24px;position:relative;z-index:40}
+        .hero-left{max-width:56%}
+        .hero-title{font-size:60px;line-height:1.03;margin:0 0 24px 0;font-weight:700}
+        .hero-sub{font-size:20px;margin:0 0 24px 0;color:rgba(0,0,0,0.85)}
+        .hero-right{width:42%;display:flex;align-items:center;justify-content:flex-end;position:relative}
+        .hero-right::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(185,255,102,0.3) 0%,rgba(185,255,102,0.1) 40%,transparent 70%);border-radius:50%;opacity:0;transition:opacity 0.4s ease;z-index:-1}
+        .hero-right:hover::before{opacity:1;animation:glowPulse 1.5s ease-in-out infinite}
+        @keyframes glowPulse{0%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-50%) scale(1.1);opacity:0.8}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+        .hero-right img{max-width:760px;width:100%;height:auto;display:block;transform:translateX(30px);animation:float 4.5s ease-in-out infinite}
+        .hero-right:hover img{filter:drop-shadow(0 0 30px rgba(185,255,102,0.6)) drop-shadow(0 0 60px rgba(185,255,102,0.3));transform:translateX(30px) translateY(-10px) scale(1.05)}
+        @keyframes float{0%{transform:translateX(30px) translateY(0) rotate(0deg) scale(1)}35%{transform:translateX(30px) translateY(-18px) rotate(-1.8deg) scale(1.01)}65%{transform:translateX(30px) translateY(-24px) rotate(-3deg) scale(1.02)}100%{transform:translateX(30px) translateY(0) rotate(0deg) scale(1)}}
+        
+        .intro-section{padding:100px 80px;background:rgba(245,245,245,0.5)}
+        .intro-container{max-width:760px;margin:0 auto;text-align:left}
+        .section-title{margin:0 0 24px 0}
+        .section-title span{display:inline-block;background:rgba(185,255,102,1);color:#000;padding:10px 18px;border-radius:10px;font-size:28px;font-weight:700}
+        .intro-content{color:rgba(0,0,0,0.95);font-size:18px;line-height:1.9;margin:18px 0 24px 0}
+        .intro-content p{margin:12px 0}
+        .intro-content strong{color:#000;font-weight:700}
+        
+        .page-wrap{padding:100px 24px;min-height:calc(100vh - 80px)}
+        .container{max-width:1180px;margin:0 auto}
+        .page-heading{margin:0 0 30px 0;animation:slideInDown 0.6s ease-out}
+        .page-heading span{display:inline-block;background:rgba(185,255,102,1);color:#000;padding:14px 26px;border-radius:14px;font-size:32px;font-weight:800}
+        @keyframes slideInDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+        
+        .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 44px;margin-top:24px;margin-bottom:80px}
+        .card{position:relative;border-radius:28px;padding:32px 28px;min-height:200px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0px 6px 0px rgba(15,16,22,0.15);overflow:visible;animation:fadeInUp 0.6s ease-out both;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);cursor:pointer;transform-style:preserve-3d}
+        .card:nth-child(1){animation-delay:0.1s}.card:nth-child(2){animation-delay:0.2s}.card:nth-child(3){animation-delay:0.3s}.card:nth-child(4){animation-delay:0.4s}.card:nth-child(5){animation-delay:0.5s}.card:nth-child(6){animation-delay:0.6s}
+        .card:hover{transform:translateY(-12px) scale(1.03) perspective(1000px) rotateY(-2deg) rotateX(3deg);box-shadow:0 0 15px rgba(255,255,255,0.4),0 0 30px rgba(255,255,255,0.15),0px 20px 40px rgba(15,16,22,0.2)}
+        .card::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;background:radial-gradient(circle,rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.05) 40%,transparent 70%);border-radius:28px;opacity:0;transition:opacity 0.4s ease;z-index:-1;pointer-events:none}
+        .card:hover::before{opacity:1}
+        .card--light{background:#f5f5f5;color:#000}
+        .card--lime{background:rgba(185,255,102,1);color:#000}
+        .card--dark{background:#191a23;color:#fff}
+        
+        .card-title{position:absolute;top:35px;left:35px}
+        .card-title span{display:inline-block;background:rgba(255,255,255,0.98);color:#000;padding:10px 14px;border-radius:12px;font-weight:800;font-size:24px;line-height:1.2;box-shadow:0 2px 4px rgba(0,0,0,0.08);transition:all 0.3s ease;transform:translateX(-20px)}
+        .card:hover .card-title span{background:rgba(185,255,102,1);color:#000;transform:scale(1) translateX(0px);box-shadow:0 0 20px rgba(185,255,102,0.8)}
+        .card--lime .card-title span{background:rgba(255,255,255,0.95)}
+        .card--lime:hover .card-title span{background:rgba(255,255,255,1)}
+        .card--dark .card-title span{background:rgba(185,255,102,1);color:#000}
+        
+        .card-art{display:block;width:40%;margin-left:auto;opacity:0.95;transition:all 0.4s ease}
+        .card:hover .card-art{opacity:1;transform:scale(1.15) rotate(3deg)}
+        .card-art img{width:100%;height:auto;display:block;filter:grayscale(1) contrast(0.9) brightness(1.05)}
+        
+        .card-cta{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none;font-size:16px;transition:all 0.3s ease}
+        .card:hover .card-cta{gap:20px}
+        .card-cta .arrow{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,0.88);color:#fff;font-weight:700;font-size:20px;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+        .card:hover .card-cta .arrow{transform:translateX(8px) scale(1.1);background:rgba(0,0,0,1)}
+        .card--dark .card-cta .arrow{background:#fff;color:#111}
+        .card--dark:hover .card-cta .arrow{background:rgba(185,255,102,1);color:#111}
+        
+        .section-subtitle{font-size:18px;color:rgba(0,0,0,0.75);margin-bottom:40px;text-align:center}
+        
+        .prevention-section{padding:100px 24px;background:rgba(245,245,245,0.5)}
+        .prevention-container{max-width:1180px;margin:0 auto}
+        .prevention-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:40px}
+        .prevention-item{background:#fff;padding:28px;border-radius:16px;box-shadow:0px 4px 12px rgba(15,16,22,0.08);border-left:4px solid rgba(185,255,102,1)}
+        .prevention-item:hover{transform:translateY(-12px) scale(1.03);box-shadow:0 0 15px rgba(185,255,102,0.4)}
+        .prevention-item-title{font-size:16px;font-weight:700;color:#000;margin-bottom:8px}
+        .prevention-item-desc{font-size:14px;color:rgba(0,0,0,0.7);line-height:1.6}
+        
+        .bank-slider-wrapper{position:relative;width:100%;animation:fadeInUp 0.6s ease-out;margin-bottom:60px}
+        .bank-slider-container{overflow:hidden;border-radius:20px;box-shadow:0 8px 24px rgba(15,16,22,0.12);background:linear-gradient(135deg,#fff 0%,#fafafa 100%)}
+        .bank-slider{display:flex;gap:16px;padding:32px 24px;overflow-x:auto;scroll-behavior:smooth;cursor:grab;user-select:none;width:100%}
+        .bank-slider:active{cursor:grabbing}
+        .bank-slider::-webkit-scrollbar{height:8px}
+        .bank-slider::-webkit-scrollbar-track{background:rgba(0,0,0,0.05);border-radius:10px}
+        .bank-slider::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(185,255,102,0.7),rgba(185,255,102,0.5));border-radius:10px;transition:all 0.3s ease}
+        .bank-slider::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,rgba(185,255,102,1),rgba(185,255,102,0.8))}
+        .bank-link{text-decoration:none;display:contents}
+        .bank-item{flex:0 0 auto;min-width:180px;background:linear-gradient(135deg,#f5f5f5 0%,#fff 100%);padding:28px 24px;border-radius:16px;display:flex;align-items:center;justify-content:center;min-height:120px;box-shadow:0px 6px 0px rgba(15,16,22,0.1);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);cursor:pointer;position:relative;overflow:hidden;border:1px solid rgba(185,255,102,0.1)}
+        .bank-item:hover{transform:translateY(-12px) scale(1.05);box-shadow:0 12px 30px rgba(185,255,102,0.25),0px 6px 0px rgba(15,16,22,0.1);border-color:rgba(185,255,102,0.4)}
+        .bank-item::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;background:radial-gradient(circle,rgba(185,255,102,0.15) 0%,rgba(185,255,102,0.05) 40%,transparent 70%);border-radius:16px;opacity:0;transition:opacity 0.3s ease;z-index:-1;pointer-events:none}
+        .bank-item:hover::before{opacity:1;animation:glowPulseBank 1.5s ease-in-out infinite}
+        @keyframes glowPulseBank{0%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-50%) scale(1.08);opacity:0.8}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+        .bank-item img{max-width:100%;max-height:80px;object-fit:contain;width:auto;height:auto;position:relative;z-index:1;transition:all 0.3s ease;filter:brightness(1)}
+        .bank-item:hover img{transform:scale(1.12);filter:brightness(1.05)}
+        
+        .slider-controls{display:flex;gap:12px;margin-top:24px;justify-content:center}
+        .slider-btn{width:44px;height:44px;border-radius:50%;border:2px solid rgba(185,255,102,1);background:#fff;color:rgba(185,255,102,1);font-size:20px;font-weight:700;cursor:pointer;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center;font-family:inherit}
+        .slider-btn:hover:not(:disabled){background:rgba(185,255,102,1);color:#000;transform:scale(1.08);box-shadow:0 8px 16px rgba(185,255,102,0.3)}
+        .slider-btn:disabled{opacity:0.4;cursor:not-allowed}
+        
+        .bank-content{padding:32px;background:linear-gradient(135deg,#fff 0%,#fafafa 100%);border:1px solid rgba(185,255,102,0.2);border-radius:16px;box-shadow:0 8px 24px rgba(15,16,22,0.06)}
+        .bank-content h2{margin:0 0 16px 0;font-size:24px;color:#000}
+        .bank-content .hint{color:rgba(0,0,0,0.6);font-size:15px;line-height:1.6}
+        .bank-content ul{margin:16px 0 0 0;padding-left:20px}
+        .bank-content li{margin:8px 0;line-height:1.6;color:rgba(0,0,0,0.8);font-size:14px}
+        
+        .contact-form-section{padding:100px 24px;background:rgba(245,245,245,0.5)}
+        .contact-form-container{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:60px;align-items:center}
+        .contact-form-decoration{position:relative;display:flex;align-items:center;justify-content:center;min-height:400px}
+        .contact-form-left{display:flex;flex-direction:column;gap:32px}
+        .contact-form-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+        .contact-form-header span{display:inline-block;background:rgba(185,255,102,1);color:#000;padding:10px 18px;border-radius:10px;font-size:18px;font-weight:700}
+        .contact-form-subtitle{font-size:16px;color:rgba(0,0,0,0.75);line-height:1.6}
+        
+        .form-tabs{display:flex;gap:16px;margin-bottom:32px}
+        .form-tab{display:flex;align-items:center;gap:8px;padding:12px 20px;border:2px solid rgba(0,0,0,0.15);border-radius:50px;background:transparent;cursor:pointer;font-size:14px;font-weight:500;color:rgba(0,0,0,0.7);transition:all 0.3s ease;font-family:inherit}
+        .form-tab:hover{border-color:rgba(185,255,102,1);color:#000}
+        .form-tab.active{background:rgba(185,255,102,1);border-color:rgba(185,255,102,1);color:#000}
+        .form-tab-radio{width:16px;height:16px;border:2px solid rgba(0,0,0,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease}
+        .form-tab.active .form-tab-radio{border-color:#000;background:#000}
+        .form-tab.active .form-tab-radio::after{content:'';width:4px;height:4px;background:rgba(185,255,102,1);border-radius:50%}
+        
+        .form-group{display:flex;flex-direction:column;gap:8px}
+        .form-group label{font-size:14px;font-weight:500;color:#000}
+        .form-group label .required{color:#e74c3c}
+        .form-group input,.form-group textarea{padding:14px 16px;border:2px solid rgba(0,0,0,0.15);border-radius:12px;font-size:14px;font-family:inherit;transition:all 0.3s ease;background:#fff;color:#000}
+        .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(0,0,0,0.4)}
+        .form-group input:focus,.form-group textarea:focus{outline:none;border-color:rgba(185,255,102,1);box-shadow:0 0 0 3px rgba(185,255,102,0.1)}
+        .form-group textarea{resize:vertical;min-height:120px}
+        
+        .form-submit-btn{margin-top:30px;padding:14px 32px;background:#1b1c22;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;font-family:inherit;width:100%}
+        .form-submit-btn:hover{background:#000;transform:translateY(-2px);box-shadow:0 8px 16px rgba(0,0,0,0.15)}
+        .form-submit-btn:active{transform:translateY(0)}
+        
+        .contact-form-right{position:relative;display:flex;align-items:center;justify-content:center;min-height:400px}
+        .form-decoration{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+        .form-star{position:absolute;width:60px;height:60px;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+        .form-star.dark{background:#1b1c22;width:100px;height:100px;top:20px;left:40px}
+        .form-star.lime{background:rgba(185,255,102,1);width:70px;height:70px;bottom:40px;right:60px}
+        
+        .map-bubble{position:fixed;right:28px;bottom:28px;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(185,255,102,1) 0%,rgba(185,255,102,0.85) 100%);color:#111;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 24px rgba(15,16,22,0.18),0 0 0 3px rgba(185,255,102,0.35);z-index:1001;transition:transform 0.25s ease,box-shadow 0.25s ease,background 0.25s ease;border:none}
+        .map-bubble:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 14px 32px rgba(15,16,22,0.22),0 0 0 6px rgba(185,255,102,0.25)}
+        .map-bubble:active{transform:translateY(-1px) scale(1.01)}
+        .map-bubble svg{width:32px;height:32px}
+        
+        /* FOOTER STYLES */
+        .footer{background:linear-gradient(135deg,#0f1016 0%,#191a23 50%,#1b1c22 100%);color:#fff;padding:60px 40px 0;position:relative;overflow:hidden}
+        .footer::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 20% 50%,rgba(185,255,102,0.05) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(185,255,102,0.03) 0%,transparent 50%);pointer-events:none}
+        .footer-container{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+        .footer-content{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;margin-bottom:50px}
+        .footer-section{display:flex;flex-direction:column;gap:20px;animation:slideInUp 0.8s ease-out both}
+        .footer-section:nth-child(1){animation-delay:0.1s}
+        .footer-section:nth-child(2){animation-delay:0.2s}
+        .footer-section:nth-child(3){animation-delay:0.3s}
+        .footer-section:nth-child(4){animation-delay:0.4s}
+        .footer-brand{font-size:32px;font-weight:800;margin:0;background:linear-gradient(135deg,rgba(185,255,102,1),rgba(185,255,102,0.8));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-1px}
+        .footer-desc{font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;margin:8px 0 0 0}
+        .footer-social{display:flex;gap:16px;margin-top:12px}
+        .footer-social a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:rgba(185,255,102,0.15);border-radius:50%;color:rgba(185,255,102,1);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);border:1px solid rgba(185,255,102,0.2);position:relative;overflow:hidden}
+        .footer-social a::before{content:'';position:absolute;inset:0;background:rgba(185,255,102,0.3);transform:scaleX(0);transform-origin:right;transition:transform 0.4s ease;z-index:-1}
+        .footer-social a:hover::before{transform:scaleX(1);transform-origin:left}
+        .footer-social a:hover{color:#000;box-shadow:0 0 20px rgba(185,255,102,0.4);transform:translateY(-6px) scale(1.05)}
+        .footer-social svg{width:20px;height:20px;position:relative;z-index:1}
+        .footer-section h4{font-size:16px;font-weight:700;margin:0;color:#fff;text-transform:uppercase;letter-spacing:1px;position:relative;padding-bottom:12px}
+        .footer-section h4::after{content:'';position:absolute;bottom:0;left:0;width:40px;height:3px;background:rgba(185,255,102,0.8);border-radius:2px}
+        .footer-links{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+        .footer-links li a{color:rgba(255,255,255,0.75);text-decoration:none;font-size:13px;transition:all 0.3s ease;display:inline-flex;align-items:center;gap:8px;position:relative;padding-left:0}
+        .footer-links li a::before{content:'→';opacity:0;transform:translateX(-8px);transition:all 0.3s ease;color:rgba(185,255,102,1);font-weight:700}
+        .footer-links li a:hover{color:rgba(185,255,102,1);padding-left:8px}
+        .footer-links li a:hover::before{opacity:1;transform:translateX(0)}
+        .footer-contact{font-size:13px;color:rgba(255,255,255,0.75);margin:6px 0;line-height:1.6}
+        .footer-contact a{color:rgba(185,255,102,1);text-decoration:none;transition:all 0.3s ease;font-weight:600;position:relative}
+        .footer-contact a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:rgba(185,255,102,1);transition:width 0.3s ease}
+        .footer-contact a:hover{color:#fff}
+        .footer-contact a:hover::after{width:100%}
+        .footer-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(185,255,102,0.3),transparent);margin:30px 0}
+        .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:30px 0;flex-wrap:wrap;gap:16px}
+        .footer-bottom p{font-size:12px;color:rgba(255,255,255,0.6);margin:0;transition:color 0.3s ease}
+        .footer-bottom p:hover{color:rgba(255,255,255,0.85)}
+        .footer-bottom p:first-child{flex:1;min-width:200px}
+        .footer-bottom p:last-child{flex-shrink:0}
+        
+        @media (max-width:768px){
+            .footer{padding:40px 24px 0}
+            .footer-content{grid-template-columns:1fr 1fr;gap:30px}
+            .footer-bottom{flex-direction:column;text-align:center}
+            .footer-bottom p:first-child{flex:none}
+            .footer-section h4::after{left:50%;transform:translateX(-50%)}
+            .footer-social{justify-content:center}
+        }
+        .comments-section {
+            padding: 100px 24px;
+            background: rgba(245, 245, 245, 0.5);
+            min-height: 100vh;
+        }
+        
+        .comments-container {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+        
+        .page-heading {
+            margin: 0 0 30px 0;
+            animation: slideInDown 0.6s ease-out;
+        }
+        
+        .page-heading span {
+            display: inline-block;
+            background: rgba(185, 255, 102, 1);
+            color: #000;
+            padding: 14px 26px;
+            border-radius: 14px;
+            font-size: 32px;
+            font-weight: 800;
+        }
+        
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .comments-intro {
+            margin: 0 0 60px 0;
+            padding: 32px;
+            background: linear-gradient(135deg, rgba(185, 255, 102, 0.08) 0%, rgba(185, 255, 102, 0.02) 100%);
+            border-left: 4px solid rgba(185, 255, 102, 1);
+            border-radius: 14px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .comments-intro p {
+            margin: 0;
+            font-size: 16px;
+            color: rgba(0, 0, 0, 0.8);
+            line-height: 1.6;
+        }
+        
+        .comments-form-box {
+            background: #fff;
+            padding: 32px;
+            border-radius: 20px;
+            box-shadow: 0px 6px 24px rgba(15, 16, 22, 0.08);
+            margin-bottom: 60px;
+            animation: fadeInUp 0.6s ease-out 0.1s both;
+        }
+        
+        .form-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 24px 0;
+            color: #000;
+        }
+        
+        .comment-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .comment-form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+        }
+        
+        .comment-form-group input,
+        .comment-form-group textarea {
+            padding: 14px 16px;
+            border: 2px solid rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #fff;
+            color: #000;
+        }
+        
+        .comment-form-group input::placeholder,
+        .comment-form-group textarea::placeholder {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .comment-form-group input:focus,
+        .comment-form-group textarea:focus {
+            outline: none;
+            border-color: rgba(185, 255, 102, 1);
+            box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.1);
+        }
+        
+        .comment-form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .rating-group {
+            margin-bottom: 20px;
+        }
+        
+        .rating-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            display: block;
+            margin-bottom: 12px;
+        }
+        
+        .rating-stars {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .star-btn {
+            width: 44px;
+            height: 44px;
+            border: 2px solid rgba(185, 255, 102, 0.3);
+            background: #fff;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .star-btn:hover {
+            border-color: rgba(185, 255, 102, 1);
+            background: rgba(185, 255, 102, 0.1);
+            transform: scale(1.1);
+        }
+        
+        .star-btn.active {
+            background: rgba(185, 255, 102, 1);
+            border-color: rgba(185, 255, 102, 1);
+            transform: scale(1.15);
+            box-shadow: 0 0 20px rgba(185, 255, 102, 0.4);
+        }
+        
+        .comment-submit-btn {
+            padding: 14px 32px;
+            background: #1b1c22;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            width: 100%;
+        }
+        
+        .comment-submit-btn:hover {
+            background: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .comment-submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .comment-item {
+            background: #fff;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0px 4px 12px rgba(15, 16, 22, 0.08);
+            border-left: 4px solid rgba(185, 255, 102, 0.5);
+            animation: fadeInUp 0.6s ease-out both;
+            transition: all 0.3s ease;
+        }
+        
+        .comment-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(15, 16, 22, 0.12);
+            border-left-color: rgba(185, 255, 102, 1);
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .comment-author {
+            font-weight: 700;
+            font-size: 16px;
+            color: #000;
+        }
+        
+        .comment-date {
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .comment-rating {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .comment-rating .star {
+            font-size: 16px;
+            color: rgba(185, 255, 102, 1);
+        }
+        
+        .comment-text {
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.8);
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .comment-category {
+            display: inline-block;
+            background: rgba(185, 255, 102, 0.1);
+            color: rgba(185, 255, 102, 1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+        
+        .comments-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 60px;
+        }
+        
+        .pagination-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid rgba(185, 255, 102, 1);
+            background: #fff;
+            color: rgba(185, 255, 102, 1);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: inherit;
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            background: rgba(185, 255, 102, 1);
+            color: #000;
+            transform: scale(1.08);
+            box-shadow: 0 8px 16px rgba(185, 255, 102, 0.3);
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .no-comments {
+            text-align: center;
+            padding: 60px 24px;
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .no-comments p {
+            font-size: 16px;
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .comments-section {
+                padding: 60px 16px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-heading span {
+                font-size: 24px;
+                padding: 10px 20px;
+            }
+            
+            .comment-item {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header"><div class="brand">SO SMART</div><nav class="site-nav"><a href="#home">Trang chủ</a><a href="#types">Các kiểu lừa đảo</a><a href="#prevention">Phòng chống</a><a href="#contact">Liên hệ</a></nav></header>
+    <main class="hero" id="home"><div class="hero-left"><h1 class="hero-title">CẢNH BÁO CÁC CHIÊU TRÒ LỪA ĐẢO TRONG CUỘC SỐNG HIỆN NAY</h1><p class="hero-sub">Hãy nâng cao cảnh giác cho tất cả mọi người, tránh những rủi ro, hậu quả khôn lường.</p></div><div class="hero-right"><img src="./images/unnamed.jpg" alt="illustration" /></div></main>
+    <section class="intro-section"><article class="intro-container"><h2 class="section-title"><span>Giới thiệu chung</span></h2><div class="intro-content"><p><strong>Giới thiệu tổng quan:</strong> Hiện nay, tình trạng lừa đảo trong xã hội diễn ra ngày càng phức tạp và đa dạng. Các hình thức lừa đảo xuất hiện trên mạng xã hội, tin nhắn, cuộc gọi giả danh, website giả mạo và cả ngoài đời thực. Đối tượng lừa đảo thường tận dụng công nghệ và tâm lý chủ quan của người dân để chiếm đoạt tài sản hoặc thu thập thông tin cá nhân.</p><p><strong>Mức độ nguy hiểm:</strong> ừa đảo không chỉ gây thiệt hại về tài chính mà còn ảnh hưởng đến danh tính, quyền riêng tư và tâm lý của nạn nhân. Nhiều trường hợp mất toàn bộ tiền tiết kiệm, bị chiếm quyền điều khiển tài khoản hoặc bị lợi dụng thông tin cá nhân cho các hành vi phạm pháp khác. Nguy cơ cao vì thủ đoạn ngày càng tinh vi, khó nhận biết.</p><p><strong>Vai trò của việc nâng cao nhận thức cộng đồng:</strong> Nâng cao nhận thức giúp cộng đồng nhận diện sớm các dấu hiệu lừa đảo, biết cách kiểm tra thông tin và phòng tránh. Khi mỗi cá nhân có kiến thức và thái độ cảnh giác, mức độ lan rộng của các chiêu trò lừa đảo giảm xuống, đồng thời góp phần bảo vệ những người xung quanh thông qua việc chia sẻ cảnh báo và thông tin chính xác.</p></div></article></section>
+    <main class="page-wrap" id="types"><div class="container"><h1 class="page-heading"><span>Các kiểu lừa đảo phổ biến</span></h1><section class="cards" aria-label="Các kiểu lừa đảo"><article class="card card--light"><div class="card-title"><span>Lừa đảo<br/>Qua Mạng</span></div><div class="card-art" aria-hidden><img src="./images/v336_1587.png" alt=""/></div><a class="card-cta" href="luadaoquamang.html"><span class="arrow">➜</span> <span id="tht_luadaoquamang">Tìm hiểu thêm</span></a></article><article class="card card--lime"><div class="card-title"><span>Lừa Đảo<br/>Đánh Cắp Danh Tính</span></div><div class="card-art" aria-hidden><img src="./images/v334_1445.png" alt=""/></div><a class="card-cta" href="luadaodanhcapdanhtinh.html"><span class="arrow">➜</span> <span>Tìm hiểu thêm</span></a></article><article class="card card--dark"><div class="card-title"><span>Lừa Đảo<br/>Gọi Điện - Tin Nhắn</span></div><div class="card-art" aria-hidden><img src="./images/v334_1422.png" alt=""/></div><a class="card-cta" href="goidien-tinnhan.html"><span class="arrow">➜</span> <span>Tìm hiểu thêm</span></a></article><article class="card card--light"><div class="card-title"><span>Lừa Đảo<br/>Đầu Tư</span></div><div class="card-art" aria-hidden><img src="./images/v336_1577.png" alt=""/></div><a class="card-cta" href="dautu.html"><span class="arrow">➜</span> <span>Tìm hiểu thêm</span></a></article><article class="card card--lime"><div class="card-title"><span>Lừa Đảo<br/>Đa Cấp</span></div><div class="card-art" aria-hidden><img src="./images/v336_1594.png" alt=""/></div><a class="card-cta" href="dacap.html"><span class="arrow">➜</span> <span>Tìm hiểu thêm</span></a></article><article class="card card--dark"><div class="card-title"><span>Việc Nhẹ<br/>Lương Cao</span></div><div class="card-art" aria-hidden><img src="./images/v334_1446.png" alt=""/></div><a class="card-cta" href="viecnheluongcao.html"><span class="arrow">➜</span> <span>Tìm hiểu thêm</span></a></article></section></div></main>
+    <section class="prevention-section" id="prevention"><div class="prevention-container"><h1 class="page-heading"><span>Cách phòng chống lừa đảo</span></h1><div class="prevention-grid"><div class="prevention-item"><div class="prevention-item-title">Không bấm link lạ</div><div class="prevention-item-desc">Không bấm vào link từ người không quen biết.</div></div><div class="prevention-item"><div class="prevention-item-title">Bảo vệ OTP & mật khẩu</div><div class="prevention-item-desc">Không cung cấp OTP, mật khẩu cho bất kỳ ai.</div></div><div class="prevention-item"><div class="prevention-item-title">Kiểm tra URL website</div><div class="prevention-item-desc">Kiểm tra kỹ URL trước khi đăng nhập.</div></div><div class="prevention-item"><div class="prevention-item-title">Tải app an toàn</div><div class="prevention-item-desc">Chỉ cài app từ CH Play/App Store.</div></div><div class="prevention-item"><div class="prevention-item-title">Bật xác thực 2 lớp</div><div class="prevention-item-desc">Bật 2FA cho tài khoản quan trọng.</div></div><div class="prevention-item"><div class="prevention-item-title">Gọi lại tổng đài</div><div class="prevention-item-desc">Gọi lại tổng đài chính thức để xác minh.</div></div><div class="prevention-item"><div class="prevention-item-title">Cảnh báo lãi suất cao</div><div class="prevention-item-desc">Không tin lời mời lãi cao bất thường.</div></div><div class="prevention-item"><div class="prevention-item-title">Xác minh trước chuyển tiền</div><div class="prevention-item-desc">Xác minh công ty kỹ lưỡng trước chuyển tiền.</div></div><div class="prevention-item"><div class="prevention-item-title">Kiểm chứng thông tin</div><div class="prevention-item-desc">Kiểm chứng từ nhiều nguồn trước giao dịch.</div></div></div></div></section>
+    <main class="page-wrap"><div class="container"><h1 class="page-heading"><span>Ngân Hàng Đối Tác</span></h1><p class="section-subtitle">Hệ thống ngân hàng lớn tại Việt Nam</p><div class="bank-slider-wrapper"><div class="bank-slider-container"><div class="bank-slider" id="bankSlider"><a href="https://www.mbbank.com.vn/support" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/MBbank.png" alt="MB Bank"></div></a><a href="https://www.sacombank.com.vn/ho-tro/FAQ.html?ct=khcn" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/Sacombank.png" alt="Sacombank"></div></a><a href="https://contact.vietinbank.vn/" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/vietinbank.png" alt="VietinBank"></div></a><a href="https://www.vib.com/contact/" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/VIBbank.png" alt="VIB"></div></a><a href="https://www.vietcombank.com.vn/vi-VN/KHCN/Lien-he-va-Ho-tro/Lien-he-Cham-soc-khach-hang" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/vietcombank.png" alt="Vietcombank"></div></a><a href="https://cskh.vpbank.com.vn/" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/VPBank.png" alt="VPBank"></div></a><a href="https://acb.com.vn/" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/ACB.png" alt="ACB"></div></a><a href="https://www.agribank.com.vn/support" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/agribank.png" alt="Agribank"></div></a><a href="https://hdbank.com.vn/vi/personal/QnA" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/HDBank.png" alt="HDBank"></div></a><a href="https://bidv.com.vn/vn/lien-he" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/BIDV.png" alt="BIDV"></div></a><a href="https://techcombank.com/ho-tro" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/techcombank.png" alt="Techcombank"></div></a><a href="https://tpb.vn/ca-nhan" target="_blank" rel="noopener noreferrer" class="bank-link"><div class="bank-item"><img src="./images/logo_bank/TPbank.png" alt="TPBank"></div></a></div></div><div class="slider-controls"><button class="slider-btn" id="prevBtn">←</button><button class="slider-btn" id="nextBtn">→</button></div></div><div class="bank-content"><h2>HƯỚNG DẪN LÀM ĐƠN BÁO CÁO</h2><p>Hướng dẫn chuẩn bị hồ sơ tố cáo lừa đảo qua mạng gồm:</p><ul><li>Đơn tố cáo</li><li>Đơn trình báo công an</li><li>Căn cước công dân cả bị hại (bản sao công chứng)</li> <li>Chứng cứ kèm theo để chứng minh</li></ul></div></div></main>
+    <section class="contact-form-section" id="contact"><div class="contact-form-container"><div class="contact-form-decoration"><div class="form-star dark" style="animation: float 4.5s ease-in-out infinite; width: 100px; height: 100px; top: 20px; left: 40px;"></div><div class="form-star lime" style="animation: float 4.5s ease-in-out infinite 0.5s; width: 70px; height: 70px; bottom: 40px; right: 60px;"></div></div><div class="contact-form-left"><div class="contact-form-header"><span>KẾT NỐI VỚI CHÚNG TÔI</span></div><p class="contact-form-subtitle">Hãy liên hệ với chúng tôi để báo cáo các vụ lừa đảo hoặc yêu cầu tư vấn về cách phòng chống.</p><div class="form-tabs"><button class="form-tab active" onclick="switchTab(this)"><span class="form-tab-radio"></span><span>Gửi tin nhắn</span></button><button class="form-tab" onclick="switchTab(this)"><span class="form-tab-radio"></span><span>Yêu cầu tư vấn</span></button></div><form class="contact-form"><div class="form-group"><label for="name">Tên</label><input type="text" id="name" name="name" placeholder="Nhập tên của bạn" required></div><div class="form-group"><label for="email">Email <span class="required">*</span></label><input type="email" id="email" name="email" placeholder="Nhập email của bạn" required></div><div class="form-group"><label for="message">Tin nhắn <span class="required">*</span></label><textarea id="message" name="message" placeholder="Nhập tin nhắn của bạn" required></textarea></div><button type="submit" class="form-submit-btn">Gửi tin nhắn</button></form></div><div class="contact-form-right"><div class="form-decoration"><div class="form-star dark" style="animation: float 4.5s ease-in-out infinite;"></div><div class="form-star lime" style="animation: float 4.5s ease-in-out infinite 0.5s;"></div></div></div></div></section>
+     <section class="comments-section" id="comments">
+        <div class="comments-container">
+            <h1 class="page-heading"><span>Bình Luận & Đánh Giá</span></h1>
+            
+            <div class="comments-intro">
+                <p>Chia sẻ trải nghiệm, kinh nghiệm phòng chống lừa đảo hoặc đánh giá về nội dung trên trang web. Các bình luận của bạn sẽ giúp cộng đồng nhận thức hơn về các chiêu trò lừa đảo và cách bảo vệ tài chính.</p>
+            </div>
+            
+            <div class="comments-form-box">
+                <h2 class="form-title">Để lại bình luận của bạn</h2>
+                
+                <form id="commentForm">
+                    <div class="form-row">
+                        <div class="comment-form-group">
+                            <label for="commenterName">Tên của bạn</label>
+                            <input type="text" id="commenterName" name="name" placeholder="Nhập tên của bạn" required>
+                        </div>
+                        <div class="comment-form-group">
+                            <label for="commenterEmail">Email</label>
+                            <input type="email" id="commenterEmail" name="email" placeholder="Nhập email của bạn" required>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-group">
+                        <label class="rating-label">Đánh giá mức độ hữu ích</label>
+                        <div class="rating-stars">
+                            <button type="button" class="star-btn" data-rating="1" title="1 sao">★</button>
+                            <button type="button" class="star-btn" data-rating="2" title="2 sao">★</button>
+                            <button type="button" class="star-btn" data-rating="3" title="3 sao">★</button>
+                            <button type="button" class="star-btn" data-rating="4" title="4 sao">★</button>
+                            <button type="button" class="star-btn" data-rating="5" title="5 sao">★</button>
+                        </div>
+                        <input type="hidden" id="commentRating" name="rating" value="0">
+                    </div>
+                    
+                    <div class="comment-form-group">
+                        <label for="commentCategory">Chủ đề liên quan</label>
+                        <select id="commentCategory" name="category" style="padding: 14px 16px; border: 2px solid rgba(0, 0, 0, 0.15); border-radius: 12px; font-size: 14px; font-family: inherit; background: #fff; color: #000; cursor: pointer; transition: all 0.3s ease;">
+                            <option value="general">Bình luận chung</option>
+                            <option value="online_fraud">Lừa đảo qua mạng</option>
+                            <option value="identity_theft">Đánh cắp danh tính</option>
+                            <option value="phone_sms">Gọi điện - Tin nhắn</option>
+                            <option value="investment">Lừa đảo đầu tư</option>
+                            <option value="mlm">Lừa đảo đa cấp</option>
+                            <option value="job">Việc nhẹ lương cao</option>
+                        </select>
+                    </div>
+                    
+                    <div class="comment-form-group">
+                        <label for="commentText">Bình luận <span style="color: #e74c3c;">*</span></label>
+                        <textarea id="commentText" name="comment" placeholder="Chia sẻ bình luận, trải nghiệm hoặc câu hỏi của bạn..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="comment-submit-btn">Gửi Bình Luận</button>
+                </form>
+            </div>
+            
+            <div style="margin-bottom: 40px;">
+                <h2 class="form-title" style="margin-bottom: 30px;">Các bình luận gần đây</h2>
+                <div class="comments-list" id="commentsList">
+                    <div class="comment-item" style="animation-delay: 0.2s;">
+                        <div class="comment-header">
+                            <span class="comment-author">Nguyễn Hồng Púc</span>
+                            <span class="comment-date">2 ngày trước</span>
+                        </div>
+                        <div class="comment-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <p class="comment-text">Tao là bố của chúng mày, chúng mày là con tao.</p>
+                        <span class="comment-category">Bình luận chung</span>
+                    </div>
+                    
+                    <div class="comment-item" style="animation-delay: 0.3s;">
+                        <div class="comment-header">
+                            <span class="comment-author">Phan Hưng Thịnh</span>
+                            <span class="comment-date">1 tuần trước</span>
+                        </div>
+                        <div class="comment-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <p class="comment-text">Mình vừa gặp một vụ lừa đảo giống như mô tả trong mục "Đánh cắp danh tính". Cảm ơn vì đã cảnh báo sớm, mình đã xử lý kịp thời.</p>
+                        <span class="comment-category">Đánh cắp danh tính</span>
+                    </div>
+                    
+                    <div class="comment-item" style="animation-delay: 0.4s;">
+                        <div class="comment-header">
+                            <span class="comment-author">Võ Kỳ Tường</span>
+                            <span class="comment-date">2 tuần trước</span>
+                        </div>
+                        <div class="comment-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <p class="comment-text">Nội dung tốt nhưng mong trang web cập nhật thêm về các chiêu trò lừa đảo mới xuất hiện gần đây.</p>
+                        <span class="comment-category">Bình luận chung</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="comments-pagination">
+                <button class="pagination-btn">←</button>
+                <button class="pagination-btn" style="background: rgba(185, 255, 102, 1); color: #000;">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn">→</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const ratingStars = document.querySelectorAll('.star-btn');
+        const ratingInput = document.getElementById('commentRating');
+        
+        ratingStars.forEach(star => {
+            star.addEventListener('click', (e) => {
+                e.preventDefault();
+                const rating = star.dataset.rating;
+                ratingInput.value = rating;
+                
+                ratingStars.forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+        
+        document.getElementById('commentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('commenterName').value;
+            const email = document.getElementById('commenterEmail').value;
+            const rating = document.getElementById('commentRating').value;
+            const category = document.getElementById('commentCategory').value;
+            const comment = document.getElementById('commentText').value;
+            
+            if (rating === '0') {
+                alert('Vui lòng chọn mức đánh giá');
+                return;
+            }
+            
+            const categoryLabels = {
+                'general': 'Bình luận chung',
+                'online_fraud': 'Lừa đảo qua mạng',
+                'identity_theft': 'Đánh cắp danh tính',
+                'phone_sms': 'Gọi điện - Tin nhắn',
+                'investment': 'Lừa đảo đầu tư',
+                'mlm': 'Lừa đảo đa cấp',
+                'job': 'Việc nhẹ lương cao'
+            };
+            
+            const stars = '★'.repeat(rating);
+            const newComment = document.createElement('div');
+            newComment.className = 'comment-item';
+            newComment.innerHTML = `
+                <div class="comment-header">
+                    <span class="comment-author">${name}</span>
+                    <span class="comment-date">Vừa đăng</span>
+                </div>
+                <div class="comment-rating">
+                    ${stars.split('').map(() => '<span class="star">★</span>').join('')}
+                </div>
+                <p class="comment-text">${comment}</p>
+                <span class="comment-category">${categoryLabels[category]}</span>
+            `;
+            
+            const commentsList = document.getElementById('commentsList');
+            commentsList.insertBefore(newComment, commentsList.firstChild);
+            
+            this.reset();
+            ratingStars.forEach(s => s.classList.remove('active'));
+            ratingInput.value = '0';
+            
+            alert('Cảm ơn bạn đã bình luận! Bình luận của bạn đã được gửi.');
+        });
+    </script>
+    <button id="mapBubble" class="map-bubble" aria-label="Mở bản đồ" aria-expanded="false" aria-controls="mapBubblePanel"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 6.67 11.4 7.01 11.7.29.25.69.25.98 0C13.33 21.4 20 15.25 20 10c0-4.42-3.58-8-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" fill="#111"></path></svg></button>
+    <style>
+        .map-bubble-panel{position:fixed;right:28px;bottom:100px;width:420px;height:350px;background:#fff;border-radius:16px;box-shadow:0 10px 40px rgba(15,16,22,0.25);z-index:1000;display:flex;flex-direction:column;opacity:0;transform:translateY(20px) scale(0.9);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none}
+        .map-bubble-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+        .map-panel-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,0.08);background:#f9f9f9;border-radius:16px 16px 0 0}
+        .map-panel-header span{font-size:16px;font-weight:700;color:#000}
+        .map-panel-close{background:none;border:none;font-size:24px;color:#000;cursor:pointer;transition:all 0.3s ease;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+        .map-panel-close:hover{transform:rotate(90deg);color:rgba(185,255,102,1)}
+        .map-panel-body{flex:1;overflow:hidden;border-radius:0 0 16px 16px}
+        .map-panel-body iframe{width:100%;height:100%;border:none}
+        @media (max-width:768px){
+            .map-bubble-panel{width:280px;height:300px;right:16px;bottom:90px}
+        }
+    </style>
+    <section id="mapBubblePanel" class="map-bubble-panel"><div class="map-panel-header"><span>Vị trí</span><button class="map-panel-close" type="button" aria-label="Đóng">×</button></div><div class="map-panel-body"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15668.016946710897!2d106.842944!3d10.963052!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174dd0035711633%3A0x9435ebb35b9e0ed6!2zQ8O0bmcgdmnDqm4gRMawxqFuZyBU4butIEdpYW5n!5e0!3m2!1svi!2sus!4v1765334762901!5m2!1svi!2sus" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen=""></iframe></div></section>
+    <footer class="footer"><div class="footer-container"><div class="footer-content"><div class="footer-section"><h3 class="footer-brand">SO SMART</h3><p class="footer-desc">Cảnh báo lừa đảo và nâng cao nhận thức bảo vệ tài chính cộng đồng Việt Nam.</p><div class="footer-social"><a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Theo dõi trên Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" title="Twitter" aria-label="Theo dõi trên Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 002.856-3.515 9.953 9.953 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417a9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a><a href="https://youtube.com" target="_blank" rel="noopener noreferrer" title="YouTube" aria-label="Theo dõi trên YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Theo dõi trên Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.117.63c-.794.297-1.473.645-2.148 1.32-.676.676-1.024 1.355-1.32 2.148-.297.788-.5 1.659-.56 2.937C.015 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.263 2.148.56 2.936.3.792.646 1.472 1.32 2.147.676.676 1.355 1.024 2.148 1.32.788.297 1.66.5 2.937.559C8.333 23.987 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.936-.559.792-.3 1.472-.646 2.147-1.32.676-.676 1.024-1.355 1.32-2.148.297-.788.5-1.659.559-2.937.058-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.559-2.936-.3-.792-.646-1.473-1.32-2.148-.676-.676-1.355-1.024-2.148-1.32-.788-.297-1.659-.5-2.937-.56C15.667.015 15.26 0 12 0zm0 2.16c3.203 0 3.585.009 4.849.07 1.171.054 1.805.244 2.227.408.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.354 1.057.408 2.227.061 1.264.07 1.646.07 4.849s-.009 3.585-.07 4.849c-.054 1.171-.244 1.805-.408 2.227-.217.562-.477.96-.896 1.382-.42.419-.819.679-1.381.896-.422.164-1.057.354-2.227.408-1.264.061-1.646.07-4.849.07s-3.585-.009-4.849-.07c-1.171-.054-1.805-.244-2.227-.408-.562-.217-.96-.477-1.382-.896-.419-.42-.679-.819-.896-1.381-.164-.422-.354-1.057-.408-2.227-.061-1.264-.07-1.646-.07-4.849s.009-3.585.07-4.849c.054-1.171.244-1.805.408-2.227.217-.562.477-.96.896-1.382.42-.419.819-.679 1.381-.896.422-.164 1.057-.354 2.227-.408 1.264-.061 1.646-.07 4.849-.07l.045.002z"/></svg></a></div></div><div class="footer-section"><h4>Các Kiểu Lừa Đảo</h4><ul class="footer-links"><li><a href="#types">Lừa đảo qua mạng</a></li><li><a href="#types">Đánh cắp danh tính</a></li><li><a href="#types">Gọi điện - tin nhắn</a></li><li><a href="#types">Lừa đảo đầu tư</a></li><li><a href="#types">Lừa đảo đa cấp</a></li><li><a href="#types">Việc nhẹ lương cao</a></li></ul></div><div class="footer-section"><h4>Thông Tin</h4><ul class="footer-links"><li><a href="#prevention">Phòng chống lừa đảo</a></li><li><a href="#contact">Liên hệ chúng tôi</a></li><li><a href="#">Chính sách bảo mật</a></li><li><a href="#">Điều khoản sử dụng</a></li><li><a href="#">Câu hỏi thường gặp</a></li></ul></div><div class="footer-section"><h4>Liên Hệ</h4><p class="footer-contact"><a href="mailto:info@sosmart.vn">info@sosmart.vn</a></p><p class="footer-contact"><a href="tel:1900123456">1900 123 456</a></p><p class="footer-contact"><a href="https://maps.google.com" target="_blank">Biên Hòa, Đồng Nai, VN</a></p><p class="footer-contact">Thứ Hai - Chủ Nhật: 8:00 - 22:00</p></div></div><div class="footer-divider"></div><div class="footer-bottom"><p>&copy; 2025 So Smart. Tất cả quyền được bảo lưu.</p><p>Nâng cao nhận thức • Bảo vệ tài chính • Chống lừa đảo</p></div></div></footer>
+    <script>const slider=document.getElementById('bankSlider');const prevBtn=document.getElementById('prevBtn');const nextBtn=document.getElementById('nextBtn');function updateButtonState(){prevBtn.disabled=slider.scrollLeft===0;nextBtn.disabled=slider.scrollLeft>=slider.scrollWidth-slider.clientWidth-10}prevBtn.addEventListener('click',()=>{slider.scrollBy({left:-200,behavior:'smooth'});setTimeout(updateButtonState,300)});nextBtn.addEventListener('click',()=>{slider.scrollBy({left:200,behavior:'smooth'});setTimeout(updateButtonState,300)});slider.addEventListener('scroll',updateButtonState);updateButtonState();let isDown=false;let startX;let scrollLeft;slider.addEventListener('mousedown',(e)=>{isDown=true;startX=e.pageX-slider.offsetLeft;scrollLeft=slider.scrollLeft});slider.addEventListener('mouseleave',()=>{isDown=false});slider.addEventListener('mouseup',()=>{isDown=false});slider.addEventListener('mousemove',(e)=>{if(!isDown) return;e.preventDefault();const x=e.pageX-slider.offsetLeft;const walk=(x-startX)*1;slider.scrollLeft=scrollLeft-walk});function switchTab(btn){document.querySelectorAll('.form-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}const bubble=document.getElementById('mapBubble');const panel=document.getElementById('mapBubblePanel');const closeBtn=panel.querySelector('.map-panel-close');function openPanel(){panel.classList.add('open');bubble.setAttribute('aria-expanded','true')}function closePanel(){panel.classList.remove('open');bubble.setAttribute('aria-expanded','false')}bubble.addEventListener('click',()=>{if(panel.classList.contains('open')) closePanel();else openPanel()});bubble.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();if(panel.classList.contains('open')) closePanel();else openPanel()}});closeBtn.addEventListener('click',closePanel);document.addEventListener('click',(e)=>{if(panel.classList.contains('open')&&!panel.contains(e.target)&&e.target!==bubble&&!bubble.contains(e.target)){closePanel()}});document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&panel.classList.contains('open')){closePanel()}});</script>
+</body>
+</html>
