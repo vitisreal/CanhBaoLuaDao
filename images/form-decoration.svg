@@ -1,0 +1,37 @@
+<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark star with lines -->
+  <g id="dark-star-group">
+    <!-- Lines around dark star -->
+    <line x1="150" y1="20" x2="150" y2="50" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="180" y1="30" x2="200" y2="50" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="200" y1="60" x2="210" y2="85" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="200" y1="100" x2="210" y2="125" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="180" y1="140" x2="200" y2="160" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="150" y1="160" x2="150" y2="190" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="120" y1="140" x2="100" y2="160" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="100" y1="100" x2="90" y2="125" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="100" y1="60" x2="90" y2="85" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="120" y1="30" x2="100" y2="50" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    
+    <!-- Dark star -->
+    <polygon points="150,40 165,90 220,90 180,130 200,180 150,140 100,180 120,130 80,90 135,90" fill="#1b1c22"/>
+  </g>
+
+  <!-- Lime star with lines -->
+  <g id="lime-star-group" transform="translate(0, 200)">
+    <!-- Lines around lime star -->
+    <line x1="80" y1="20" x2="80" y2="50" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="110" y1="30" x2="130" y2="50" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="130" y1="60" x2="140" y2="85" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="130" y1="100" x2="140" y2="125" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="110" y1="140" x2="130" y2="160" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="80" y1="160" x2="80" y2="190" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="50" y1="140" x2="30" y2="160" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="30" y1="100" x2="20" y2="125" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="30" y1="60" x2="20" y2="85" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    <line x1="50" y1="30" x2="30" y2="50" stroke="#1b1c22" stroke-width="2" opacity="0.6"/>
+    
+    <!-- Lime star -->
+    <polygon points="80,40 95,90 150,90 110,130 130,180 80,140 30,180 50,130 10,90 65,90" fill="#b9ff66"/>
+  </g>
+</svg>
